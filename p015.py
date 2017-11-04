@@ -1,17 +1,36 @@
-"""Problem 15 - Lattice paths."""
-LIMIT = 3
-counter = 0
+"""Problem 15 - Lattice paths.
 
-def move(pos):
-    global counter # LUL
-    if pos == [LIMIT, LIMIT]:
-        counter += 1
-        return
-    elif pos[0] > LIMIT or pos[1] > LIMIT:
-        return
+Problem can be solved using binomial coefficients but thats boring.
+Instead I used a recurseive function and a memoizing decorator to cache
+calls to the function.
+Can solve the 82x82 case in 0.121 seconds. Only fails higher due to pythons
+max recurssion depth.
+"""
+
+from eulerlib import Memoized
+
+@Memoized
+def no_paths(size):
+    """ poop.
+
+    Only deal with square lattices atm
+    """
+    if size == (1, 1):
+        # Found a path
+        return 1
+    # if (size[0] + 1) == size[1]:
+    #     # Dont search for mirrors - multiply ans by factor at end
+    #     # Dont really understand where im getting the factor from...
+    #     return 0
+    elif size[0] == 0 or size[1] == 0:
+        # No paths here
+        return 0
     else:
-        move([pos[0], pos[1]+1])
-        move([pos[0]+1, pos[1]])
+        x = no_paths((size[0], size[1]-1))
+        y = no_paths((size[0]-1, size[1]))
+        return x + y
 
-move([0, 0])
-print(counter)
+start_size = 20
+ans = no_paths((start_size + 1, start_size + 1)) # 2x2 squares == 3x3 points
+# ans *= start_size + 1
+print("Size: {}x{}\nNo Paths: {}".format(start_size, start_size, ans))
