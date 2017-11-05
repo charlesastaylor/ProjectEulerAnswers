@@ -1,6 +1,6 @@
 """Problem 15 - Lattice paths.
 
-Problem can be solved using binomial coefficients but thats boring.
+Problem can be solved using combinatorics but thats boring...
 Instead I used a recurseive function and a memoizing decorator to cache
 calls to the function.
 Can solve the 82x82 case in 0.121 seconds. Only fails higher due to pythons
