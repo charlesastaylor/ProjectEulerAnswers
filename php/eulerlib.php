@@ -17,3 +17,22 @@ function divisors($n) {
     }
     return $divs;
 }
+
+/**
+ * Return permutations of given array
+ * 
+ * TODO: Not finished, made for p024 but can finished to make general
+ */
+function permutations($range, $used=array()) {
+    global $perms; // erugh hack
+    if (count($range) == count($used)) {
+        array_push($perms, $used);
+    } else {
+        foreach($range as $i) {
+            if (in_array($i, $used)) continue;
+            array_push($used, $i);
+            permutations($range, $used);
+            array_pop($used);
+        }
+    }
+}
