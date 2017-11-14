@@ -1,6 +1,7 @@
 """Problem 32 - Pandigital products
 
-Pretty slow.
+Brute force approach with some shortcuts. Make use of sets to check whether
+computed answer has correct digits.
 """
 
 from itertools import permutations
@@ -10,14 +11,11 @@ def tuple_to_int(tup):
     return int(''.join(map(str, tup)))
 
 S = set()
-max_LHS = 5
-for perm in permutations(range(1,10)):
-    for i in range(1, max_LHS):
-        for j in range(i+1, max_LHS + 1):
-            multiplicand = tuple_to_int(perm[:i])
-            multiplier = tuple_to_int(perm[i:j])
-            answer = tuple_to_int(perm[j:])
-            if multiplicand * multiplier == answer:
+for length in range(2, 5 + 1):
+    for perm in permutations(range(1,10), length):
+        target = set(range(1,10)) - set(perm)
+        for i in range(1, length // 2 + 1):
+            answer = tuple_to_int(perm[:i]) * tuple_to_int(perm[i:])
+            if len(str(answer)) == 9 - length and target == {int(d) for d in str(answer)}:
                 S.add(answer)
-                
 print(sum(S))
