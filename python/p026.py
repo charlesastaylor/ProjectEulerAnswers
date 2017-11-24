@@ -1,34 +1,35 @@
 """Problem 26 - Reciprocal cycles
 
-Tried to solve quickly rather than properly, ended up not working.
+Same approach but slightly more concise than mine -
+https://projecteuler.net/thread=26#1698
 """
 
-from decimal import *
+def len_recurring_cycle(n):
+    """Return the length of recurring cycle of 1/n.
 
-PREC = 400
-setcontext(Context(prec=PREC))
-D=Decimal # shorthand
-max = (0, 0) # (d, length of repetend)
-for d in range(2, 1000):
-    # Do the division, convert to string and strip leading '0.'
-    x = str(1 / D(d))[2:]
-    
-    if len(x) < PREC: continue # non recurring
-    
-    for start in range(PREC):
-        for size in range(1, (PREC - start) // 2):
-            repetend = x[start:start + size]
-            repetend_found = True
-            for i in range(1, 10):
-                if x[start + size * i:start + size * (i + 1)] != repetend:
-                    if start + size * (i + 1) > len(x) - 1: break
-                    repetend_found = False
-                    break
-            if repetend_found: break
-        if repetend_found: break
-    if len(repetend) > max[1]:
-        max = (d, len(repetend))
+    Use long division to calculate the length of the recurring part of the
+    decimal representation of the unit fraction 1/n.
+    Returns 0 if 1/n is non recurring/
+    """
+    i = 0
+    while 10**i // n <= 0:
+        i += 1
+    dec = '0' * (i - 1)
+    tmp = 10**i
+    cache = {}
+    while True:
+        if tmp == 0:
+            return 0
+        elif tmp in cache:
+            return len(dec[cache[tmp]:])
+        dec += str(tmp // n)
+        cache[tmp] = len(dec) - 1
+        tmp = (tmp % n) * 10 # *10 corresponds to bringing down next 0
 
-print(max)
+d_max = (0, 0)
+for d in range(1, 1000):
+    _len = len_recurring_cycle(d)
+    if _len > d_max[1]:
+        d_max = (d, _len)
 
-
+print(d_max[0])
