@@ -1,3 +1,4 @@
+"""Problem 12 - Highly divisible triangular number"""
 from math import sqrt
 
 

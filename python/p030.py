@@ -1,15 +1,18 @@
 """Problem 30 - Digit fifth powers
 
-Can't brute force it in reasonale time. Maybe look at combinations of digits
-that power sum to in the correct then see if they permute to a suitable digit
+Just use a time limit to stop looking if we dont find one for 5 seconds since
+last. Can set an upper limit mathematically but this works.
 """
+from time import time
 
-POW = 4
-# for i in range(2, 10000000):
-#     if i == sum([int(d)**POW for d in str(i)]): print(i)
 
-for i in range(0, 10):
-    print("No digits: {}  Number: {} - {}  Power sum: {} - {}".format(
-        i + 1, 10**i, 10**(i + 1) - 1, 1 * (i + 1), 9**POW * (i + 1))
-        )
+i = 2
+found_time = time()
+answer = 0
+while time() - found_time < 5:
+    if i == sum([int(c)**5 for c in str(i)]):
+        answer += i
+        found_time = time()
+    i += 1
 
+print(answer)

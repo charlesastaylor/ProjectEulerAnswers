@@ -1,22 +1,27 @@
-"""Problem 50 - Conescutive prime sum
-
-Doesnt run for limit > 10000 need new method, maybe start with primes and check
-if they can be written as sum somehow.
-"""
+"""Problem 50 - Conescutive prime sum"""
 from itertools import combinations
 
 from eulerlib import get_primes, is_prime
 
-limit = 100000
+limit = 1000000
 primes = sorted(get_primes(limit))
-length = len(primes)
+
+# Find maximum length worth considering by looking at sum of smallest primes
+for i in range(limit):
+    if sum(primes[:i]) > limit:
+        length = i - 1
+        break
+
 answer = None
 while length > 1 and answer is None:
     for start in range(len(primes) - length):
         sum_ = sum(primes[start:start + length])
-        if sum_ < limit and is_prime(sum_):
+        if sum_ >= limit:
+            break
+        elif is_prime(sum_):
             answer = sum_
             break
     length -= 1
 
 print(answer)
+

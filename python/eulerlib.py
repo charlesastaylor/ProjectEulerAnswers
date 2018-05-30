@@ -1,9 +1,14 @@
-"""Common classes and functions used in project euler problems"""
+"""Common classes and functions used in project euler problems
+
+TODO: Maybe should use sympy for some number theory stuff, eg has a nice sieve
+class.
+"""
 
 from functools import partial, lru_cache
 from math import sqrt
 
 
+# Prime numbers
 @lru_cache(maxsize=None)
 def is_prime(x):
     """Tests if x is a prime number."""
@@ -36,7 +41,7 @@ def primes(start=1, stop=None, step=1):
 def prime_factors(x):
     """Return list of prime factors of x
 
-    TODO: make better
+    TODO: make better or use sympy
     """
     if x == 1:
         return []
@@ -50,3 +55,11 @@ def prime_factors(x):
         x //= prime
     L.append(x)
     return L
+
+# Other
+
+def is_palindrome(s):
+    # TODO: Might be more efficient for large strings
+    # return all([s[i] == s[~i] for i in range(len(s) // 2)])    
+    return s == s[::-1]
+    

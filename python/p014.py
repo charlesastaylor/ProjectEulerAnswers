@@ -1,3 +1,4 @@
+"""Problem 14 - Longest Collatz sequence"""
 import time
 
 
