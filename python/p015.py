@@ -7,9 +7,10 @@ Can solve the 82x82 case in 0.121 seconds. Only fails higher due to pythons
 max recurssion depth.
 """
 
-from eulerlib import Memoized
+from functools import lru_cache
 
-@Memoized
+
+@lru_cache(maxsize=None)
 def no_paths(size):
     """ poop.
 

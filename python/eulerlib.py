@@ -1,9 +1,10 @@
 """Common classes and functions used in project euler problems"""
 
-from functools import partial
+from functools import partial, lru_cache
 from math import sqrt
 
 
+@lru_cache(maxsize=None)
 def is_prime(x):
     """Tests if x is a prime number."""
     if x < 2:
@@ -24,30 +25,28 @@ def get_primes(n):
                 L[j] = False
     return {i for i, prime in enumerate(L) if i > 1 and prime}
 
-class Memoized(object):
-    '''Decorator. Caches a function's return value each time it is called.
+def primes(start=1, stop=None, step=1):
+    """Prime number generator"""
+    i = start
+    while stop is None or i < stop:
+        if is_prime(i):
+            yield i
+        i += step
 
-    If called later with the same arguments, the cached value is returned,
-    not reevaluated.
-    Source: https://wiki.python.org/moin/PythonDecoratorLibrary#Memoize
-    '''
-    def __init__(self, func):
-        self.func = func
-        self.cache = {}
-    def __call__(self, *args):
-        # if not isinstance(args, collections.Hashable):
-        #     # uncacheable. a list, for instance.
-        #     # better to not cache than blow up.
-        #     return self.func(*args)
-        if args in self.cache:
-            return self.cache[args]
-        else:
-            value = self.func(*args)
-            self.cache[args] = value
-            return value
-    def __repr__(self):
-        '''Return the function's docstring.'''
-        return self.func.__doc__
-    def __get__(self, obj, objtype):
-        '''Support instance methods.'''
-        return partial(self.__call__, obj)
+def prime_factors(x):
+    """Return list of prime factors of x
+
+    TODO: make better
+    """
+    if x == 1:
+        return []
+
+    L = []
+    while not is_prime(x):
+        for prime in primes():
+            if x % prime == 0:
+                L.append(prime)
+                break
+        x //= prime
+    L.append(x)
+    return L

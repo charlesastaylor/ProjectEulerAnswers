@@ -5,8 +5,11 @@ Memoized class already written, solved in 0.127s.
 The clever method hinted at in the problem description is to start at the bottom
 of the trianlge and for each pair add the largest to the number above. In effect
 this method works out pretty much the same as using memoization.
+
+Update: replaced custom Memoized class with one from functools
 """
-from eulerlib import Memoized
+from functools import lru_cache
+
 
 f = open("p067_triangle.txt")
 tri_s = f.read()
@@ -14,7 +17,7 @@ tri_s = f.read()
 # Convert triangle string to list of lists of ints
 tri = [[int(s) for s in row_s.split(' ')] for row_s in tri_s.split('\n')]
 
-@Memoized
+@lru_cache(maxsize=None)
 def max_path_sum(pos):
     """Poop.
 
