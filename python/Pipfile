@@ -4,6 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [dev-packages]
+"pep8" = "*"
+"autopep8" = "*"
 
 [packages]
 "num2words" = "*"
